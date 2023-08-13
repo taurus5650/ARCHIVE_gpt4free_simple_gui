@@ -3,30 +3,33 @@ import time
 import json
 import random
 
-from g4f import Model, ChatCompletion, Provider
+from g4f import ChatCompletion, Provider
 from flask import Flask, request, Response
 from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
 
+
 @app.route("/chat/completions", methods=['POST'])
 def chat_completions():
     streaming = request.json.get('stream', False)
     model = request.json.get('model', 'gpt-3.5-turbo')
     messages = request.json.get('messages')
-    
+
     response = ChatCompletion.create(model=model, stream=streaming,
                                      messages=messages)
-    
+
     if not streaming:
         while 'curl_cffi.requests.errors.RequestsError' in response:
             response = ChatCompletion.create(model=model, stream=streaming,
                                              messages=messages)
 
         completion_timestamp = int(time.time())
-        completion_id = ''.join(random.choices(
-            'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789', k=28))
+        completion_id = ''.join(
+            random.choices(
+                'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
+                k=28))
 
         return {
             'id': 'chatcmpl-%s' % completion_id,
@@ -51,8 +54,10 @@ def chat_completions():
     def stream():
         for token in response:
             completion_timestamp = int(time.time())
-            completion_id = ''.join(random.choices(
-                'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789', k=28))
+            completion_id = ''.join(
+                random.choices(
+                    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
+                    k=28))
 
             completion_data = {
                 'id': f'chatcmpl-{completion_id}',

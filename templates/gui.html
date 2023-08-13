@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat with Bot</title>
+    <style>
+        body {
+            font-family: Trebuchet MS, Trebuchet MS;
+            background-color: #F5F5F5;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            font-family: cursive;
+            text-align: center;
+            padding: 0px;
+            color: #3A3B3C;
+        }
+
+        form {
+            text-align: center;
+            padding: 20px;
+            background-color: #729aa6;
+        }
+
+    input[type="submit"] {
+        background-color: #134f5c;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 12px 24px;
+        cursor: pointer;
+        margin: 10px;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 20px;
+    }
+
+    li {
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+        .user {
+            text-align: left;
+            white-space: pre-line; /* Preserve breaklines and wrap text */
+            color: #f3f6f4;
+            background-color: #806517;
+        }
+
+        .assistant {
+                text-align: left;
+                color: #f3f6f4;
+                background-color: #123456;
+                white-space: pre-line; /* Preserve breaklines and wrap text */
+                overflow-y: auto; /* Add vertical scrollbar if content overflows */
+        }
+    </style>
+</head>
+<body>
+    <h1 class="chat-with-bot">Chat with Bot</h1>
+    <form method="POST" action="/">
+        <textarea name="user_input" placeholder="You" rows="12" style="width: 100%;"></textarea>
+        <br>
+        <input type="submit" value="Send">
+    </form>
+    <ul>
+        {% for i in range(conversation|length - 1, -1, -1) %}
+            {% set message = conversation[i] %}
+            <li class="{{ message.role }}">{{ message.role }}: {{ message.content }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

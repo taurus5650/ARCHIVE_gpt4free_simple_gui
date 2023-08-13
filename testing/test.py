@@ -1,12 +1,23 @@
 import g4f
 
-# Set with provider
-stream = False
-response = g4f.ChatCompletion.create(model='gpt-3.5-turbo', provider=g4f.Provider.Yqcloud, messages=[
-                                     {"role": "user", "content": "hello"}], stream=stream)
+# Define the message for the request
+user_input = """
+hello
+"""
+request_messages = [{"role": "user", "content": user_input}]
 
-if stream:
-    for message in response:
-        print(message)
-else:
-    print(response)
+# Capture the request JSON
+request_payload = {
+    "model": "gpt-3.5-turbo",
+    "provider": g4f.Provider.opchatgpts,
+    "messages": request_messages
+}
+
+# Make the API request
+response = g4f.ChatCompletion.create(**request_payload, stream=False)
+
+# Print the request JSON and API response
+print("Request Payload:")
+print(request_payload)
+print("\nAPI Response:")
+print(response)
