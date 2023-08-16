@@ -1,10 +1,10 @@
 import logging
-
 from flask import Flask, render_template, request
 
 import g4f
 
 app = Flask(__name__)
+logging.basicConfig(level=logging.DEBUG)
 
 # Initialize conversation
 conversation = []
@@ -17,8 +17,8 @@ def index():
         conversation.append({"role": "user", "content": user_input})
 
         request_payload = {
-            "model": "gpt-4",  # gpt-3.5-turbo
-            "provider": g4f.Provider.ChatgptAi,
+            "model": "gpt-3.5-turbo",  # gpt-3.5-turbo
+            "provider": g4f.Provider.DeepAi,
             "messages": conversation
         }
 
@@ -27,10 +27,16 @@ def index():
 
         conversation.append(
             {"role": "assistant", "content": assistant_response})
-        print(conversation)
+        logging.debug(conversation)
 
     return render_template('gui.html', conversation=conversation)
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    config = {
+        'host': '0.0.0.0',
+        'port': 1336,
+        'debug': True
+    }
+
+    app.run(**config)

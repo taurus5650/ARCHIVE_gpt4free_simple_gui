@@ -9,7 +9,7 @@ request_messages = [{"role": "user", "content": user_input}]
 # Capture the request JSON
 request_payload = {
     "model": "gpt-3.5-turbo",
-    "provider": g4f.Provider.opchatgpts,
+    "provider": g4f.Provider.DeepAi,
     "messages": request_messages
 }
 
